@@ -4,7 +4,7 @@ const Sequelize = require('sequalize');
 require('dotenv').config()
 
 //create connection to out database, pass in your MySQL information for username and password
-const sequelize = new Sequelize(prcoess.env.DB_NAME,prcoess.env.DB_USER , prcoess.env.DB_PW, {
+const sequelize = new Sequelize(process.env.DB_NAME,process.env.DB_USER , process.env.DB_PW, {
     host: 'localhost',
     dialect: 'mysql', 
     port: 3306

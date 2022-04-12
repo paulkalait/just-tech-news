@@ -47,6 +47,35 @@ router.post('/', (req, res) => {
     });
 });
 
+router.post('/login', (req, res) => {
+  //expects {email: 'kalaitzidispaul@gnmail.com, password: pasword1234}
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then(dbUserData => {
+    if(!dbUserData){
+      res.status(400).json({message: "no user found with that email address"})
+    }
+
+    //res.json({user: dbUserData})
+
+    //Verify User
+    const validPassword = dbUserData.checkPassword(req.body.password)
+    if(!validPassword){
+      res.status(400).json({message: 'Incorrect Password'})
+      return;
+    }
+
+    res.json({user: dbUserData, message: 'You are now logged in!'})
+  })
+
+
+
+
+  //Query operation 
+})
+
 router.put('/:id', (req, res) => {
   // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
 

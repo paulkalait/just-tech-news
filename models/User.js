@@ -23,7 +23,6 @@ User.init(
             allowNull: false,
             //this instruct that this is the primary key
             primaryKey: true,
-
             //turn on auto increment
             autoIncrement: true
         },
@@ -62,7 +61,7 @@ User.init(
             },
             //set up beforeUpdate lifecyle "hook" functionality
             async beforeUpdate(updatedUserData){ 
-                updatedUserData.password = await bcrypt.hash(updatedUserData, 10)
+                updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10)
                 return updatedUserData
             }
         }

@@ -1,33 +1,23 @@
-const express = require('express')
-const routes = require('./controllers/')
-const sequelize = require('./config/connection')
-const path = require('path')
-const exphbs = require('express-handlebars')
+const path = require('path');
+const express = require('express');
+const exphbs = require('express-handlebars');
 
-const hbs = exphbs.create()
-
-
-
-
-app.engine('handlebars', hbs.engine)
-app.set('view engine', 'handlebars')
-
-
-
-
-
-const app = express() 
+const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(express.static(path.join(__dirname, 'public')))
+const sequelize = require('./config/connection');
 
-//turn on routes
-app.use(routes)
+const hbs = exphbs.create({});
 
-//turn on connection to db and server 
-                //IF TRUE THEN THE TABLES WILL RECREATE TO MAKE ASSOCIATIION CHANGES 
-sequelize.sync({force: false}).then(() => {
-    app.listen(PORT, () => console.log('Now listening'))
-})
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(require('./controllers/'));
+
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log('Now listening'));
+});
